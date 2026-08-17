@@ -2,10 +2,10 @@
   "name": "내 손글씨 메모장",
   "short_name": "손글씨메모",
   "description": "간편하게 메모를 작성하고 관리하는 손글씨 스타일 메모장 앱입니다.",
-  "start_url": "https://geniustart.github.io/memo-app/index.html",
-  "scope": "https://geniustart.github.io/memo-app/",
+  "start_url": "https://insu0502.github.io/memo-app-twa-v2/index.html",
+  "scope": "https://insu0502.github.io/memo-app-twa-v2/",
   "icons": [
-    { "src": "https://geniustart.github.io/memo-app/icon-512.png", "sizes": "512x512", "type": "image/png" }
+    { "src": "https://insu0502.github.io/memo-app-twa-v2/icon-512.png", "sizes": "512x512", "type": "image/png" }
   ],
   "display": "standalone",
   "theme_color": "#4F46E5",

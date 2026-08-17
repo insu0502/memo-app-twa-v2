@@ -1,11 +1,11 @@
 {
   "packageId": "com.geniustart.memoapp",
-  "host": "geniustart.github.io",
+  "host": "insu0502.github.io",
   "name": "내 손글씨 메모장",
-  "startUrl": "/index.html",
-  "iconUrl": "https://geniustart.github.io/memo-app/icon-512.png",
-  "webManifestUrl": "https://geniustart.github.io/memo-app/manifest.json",
-  "launchUrl": "https://geniustart.github.io/memo-app/index.html",
+  "startUrl": "/memo-app-twa-v2/index.html",
+  "iconUrl": "https://insu0502.github.io/memo-app-twa-v2/icon-512.png",
+  "webManifestUrl": "https://insu0502.github.io/memo-app-twa-v2/manifest.json",
+  "launchUrl": "https://insu0502.github.io/memo-app-twa-v2/index.html",
   "display": "standalone",
   "orientation": "portrait",
   "themeColor": "#4F46E5",
@@ -32,5 +32,5 @@
   "compileSdkVersion": 34,
   "buildToolsVersion": "34.0.0",
   "appVersionCode": 1,
-  "appVersion": "1.0.0"
+  "appVersion": "1.0.1"
 }
