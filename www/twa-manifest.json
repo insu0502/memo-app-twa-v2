@@ -1,0 +1,36 @@
+{
+  "packageId": "com.geniustart.memoapp",
+  "host": "geniustart.github.io",
+  "name": "내 손글씨 메모장",
+  "startUrl": "/index.html",
+  "iconUrl": "https://geniustart.github.io/memo-app/icon-512.png",
+  "webManifestUrl": "https://geniustart.github.io/memo-app/manifest.json",
+  "launchUrl": "https://geniustart.github.io/memo-app/index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "themeColor": "#4F46E5",
+  "backgroundColor": "#4F46E5",
+  "statusBarColor": "#4F46E5",
+  "navigationColor": "#0f172a",
+  "splashScreenFadeOutDuration": 300,
+  "icons": [
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "digitallySign": true,
+  "signingKey": {
+    "path": "release-keystore.jks",
+    "alias": "memoapp-key"
+  },
+  "enableNotifications": false,
+  "enablePlayBilling": false,
+  "customTabsRedirectEnabled": false,
+  "keepAssetBar": false,
+  "enableUrlBarHiding": true,
+  "enableOfflineSupport": false,
+  "minimumSdkVersion": 21,
+  "targetSdkVersion": 34,
+  "compileSdkVersion": 34,
+  "buildToolsVersion": "34.0.0",
+  "appVersionCode": 1,
+  "appVersion": "1.0.0"
+}
