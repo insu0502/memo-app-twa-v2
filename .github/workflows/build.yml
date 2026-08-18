@@ -79,7 +79,9 @@ jobs:
           fi
           echo "사용할 SDK 경로: $SDK_PATH"
           echo "sdk 경로 존재 확인: $(ls -d "$SDK_PATH" 2>&1)"
-          echo "{\"jdkPath\": \"$JAVA_HOME\", \"androidSdkPath\": \"$SDK_PATH\"}" > config.json
+          cat > config.json << EOF
+{"jdkPath": "$JAVA_HOME", "androidSdkPath": "$SDK_PATH"}
+EOF
           cat config.json
 
       - name: Bubblewrap 빌드
