@@ -19,7 +19,7 @@
   "digitallySign": true,
   "signingKey": {
     "path": "release-keystore.jks",
-    "alias": "memoapp-key"
+    "alias": "timer-key"
   },
   "enableNotifications": false,
   "enablePlayBilling": false,
