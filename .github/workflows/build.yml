@@ -79,7 +79,9 @@ jobs:
           fi
           echo "사용할 SDK 경로: $SDK_PATH"
           echo "sdk 경로 존재 확인: $(ls -d "$SDK_PATH" 2>&1)"
-          echo "{\"jdkPath\": \"$JAVA_HOME\", \"androidSdkPath\": \"$SDK_PATH\"}" > config.json
+          cat > config.json << EOF
+{"jdkPath": "$JAVA_HOME", "androidSdkPath": "$SDK_PATH"}
+EOF
           cat config.json
 
       - name: Bubblewrap 빌드
@@ -111,15 +113,24 @@ jobs:
           echo "=== gradle 결과 ===" >> /tmp/build-debug.log
           ls -la app/build/ >> /tmp/build-debug.log 2>&1 || echo "(build 폴더 없음)" >> /tmp/build-debug.log
           echo "build exit code: $BUILD_EXIT"
+          # 실패해도 debug.log는 유지하고, exit code는 그대로 전달
           exit $BUILD_EXIT
+        id: bubblewrap_build
+
+      - name: 디버그 로그 업로드 (항상 실행)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-debug-log
+          path: /tmp/build-debug.log
+          retention-days: 7
 
       - name: 결과물 업로드 (아티팩트)
-        if: always()
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: twa-build-output
           path: |
             www/app/build/outputs/apk/release/*.apk
             www/app/build/outputs/bundle/release/*.aab
-            /tmp/build-debug.log
           retention-days: 7
