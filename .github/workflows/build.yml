@@ -36,6 +36,8 @@ jobs:
         run: |
           echo "$KEYSTORE_B64" | base64 -d > www/release-keystore.jks
           ls -la www/release-keystore.jks
+          echo "=== Keystore 유효성 검사 ==="
+          keytool -list -keystore www/release-keystore.jks -storepass "$BUBBLEWRAP_KEYSTORE_PASSWORD" 2>&1 | head -10
 
       - name: Bubblewrap CLI 전역 설치
         run: |
@@ -60,7 +62,19 @@ jobs:
           BUBBLEWRAP_KEY_PASSWORD: ${{ secrets.BUBBLEWRAP_KEY_PASSWORD }}
         run: |
           cd www
-          echo "n" | bubblewrap build --config config.json --skipPwaValidation
+          echo "=== 환경 정보 ==="
+          echo "JAVA_HOME: $JAVA_HOME"
+          echo "ANDROID_HOME: $ANDROID_HOME"
+          echo "ANDROID_SDK_ROOT: $ANDROID_SDK_ROOT"
+          echo "작동 중 경로: $(pwd)"
+          echo "=== config.json ==="
+          cat config.json
+          echo "=== bubblewrap 버전 ==="
+          bubblewrap --version 2>&1 || echo "bubblewrap 없음"
+          echo "=== keystore 확인 ==="
+          ls -la release-keystore.jks 2>&1
+          echo "=== 실제 빌드 실행 ==="
+          echo "n" | bubblewrap build --config config.json --skipPwaValidation 2>&1
 
       - name: 결과물 업로드 (아티팩트)
         uses: actions/upload-artifact@v4
