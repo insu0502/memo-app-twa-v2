@@ -62,25 +62,38 @@ jobs:
           BUBBLEWRAP_KEY_PASSWORD: ${{ secrets.BUBBLEWRAP_KEY_PASSWORD }}
         run: |
           cd www
-          echo "=== 환경 정보 ==="
-          echo "JAVA_HOME: $JAVA_HOME"
-          echo "ANDROID_HOME: $ANDROID_HOME"
-          echo "ANDROID_SDK_ROOT: $ANDROID_SDK_ROOT"
-          echo "작동 중 경로: $(pwd)"
-          echo "=== config.json ==="
-          cat config.json
-          echo "=== bubblewrap 버전 ==="
-          bubblewrap --version 2>&1 || echo "bubblewrap 없음"
-          echo "=== keystore 확인 ==="
-          ls -la release-keystore.jks 2>&1
-          echo "=== 실제 빌드 실행 ==="
-          echo "n" | bubblewrap build --config config.json --skipPwaValidation 2>&1
+          set +e
+          echo "=== 환경 정보 ===" > /tmp/build-debug.log
+          echo "JAVA_HOME: $JAVA_HOME" >> /tmp/build-debug.log
+          echo "ANDROID_HOME: $ANDROID_HOME" >> /tmp/build-debug.log
+          echo "ANDROID_SDK_ROOT: $ANDROID_SDK_ROOT" >> /tmp/build-debug.log
+          echo "작동 중 경로: $(pwd)" >> /tmp/build-debug.log
+          echo "=== config.json ===" >> /tmp/build-debug.log
+          cat config.json >> /tmp/build-debug.log
+          echo "=== bubblewrap 버전 ===" >> /tmp/build-debug.log
+          bubblewrap --version >> /tmp/build-debug.log 2>&1 || echo "bubblewrap 없음" >> /tmp/build-debug.log
+          echo "=== keystore 확인 ===" >> /tmp/build-debug.log
+          ls -la release-keystore.jks >> /tmp/build-debug.log 2>&1
+          echo "=== 실제 빌드 실행 (시작) ===" >> /tmp/build-debug.log
+          echo "n" | bubblewrap build --config config.json --skipPwaValidation >> /tmp/build-debug.log 2>&1
+          BUILD_EXIT=$?
+          echo "=== 빌드 종료 (exit: $BUILD_EXIT) ===" >> /tmp/build-debug.log
+          echo "=== 전체 환경 변수 (BUBBLEWRAP_*) ===" >> /tmp/build-debug.log
+          env | grep -i bubblewrap >> /tmp/build-debug.log 2>&1 || echo "(없음)" >> /tmp/build-debug.log
+          echo "=== 전체 환경 변수 (ANDROID/JAVA) ===" >> /tmp/build-debug.log
+          env | grep -iE 'android|java' >> /tmp/build-debug.log 2>&1 || echo "(없음)" >> /tmp/build-debug.log
+          echo "=== gradle 결과 ===" >> /tmp/build-debug.log
+          ls -la app/build/ >> /tmp/build-debug.log 2>&1 || echo "(build 폴더 없음)" >> /tmp/build-debug.log
+          echo "build exit code: $BUILD_EXIT"
+          exit $BUILD_EXIT
 
       - name: 결과물 업로드 (아티팩트)
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: twa-build-output
           path: |
             www/app/build/outputs/apk/release/*.apk
             www/app/build/outputs/bundle/release/*.aab
+            /tmp/build-debug.log
           retention-days: 7
